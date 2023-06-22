@@ -1,0 +1,30 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    container_name: nginx-cont
+    ports:
+      - 80:80
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+    networks:
+      - my-networkk
+    command: >
+      bash -c "apt update && apt install -y iputils-ping && nginx -g 'daemon off;'"
+
+
+  mysql:
+    image: mysql
+    container_name: mysql_cont
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: my_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    networks:
+      - my-networkk
+
+networks:
+  my-networkk:
+    driver: bridge
